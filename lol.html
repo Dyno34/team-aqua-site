@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Team Aqua ASD — League of Legends</title>
+  <meta name="description" content="La divisione League of Legends di Team Aqua ASD: da Los Goccioles a Team Aqua. Lineup, storia, risultati e prossimi appuntamenti.">
+  <meta name="theme-color" content="#2A0B30">
+  <link rel="icon" href="assets/common/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/common/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&family=Montserrat:ital,wght@0,700;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/lol/lineup-group.webp">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="lol.css">
+  <script>document.documentElement.classList.add('js'); try { if (sessionStorage.getItem('aqua-dive')) document.documentElement.classList.add('is-arriving'); } catch (e) {}</script>
+</head>
+<body class="lol">
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="trident" viewBox="70 250 660 535">
+        <path d="M280 255 L75 438 L160 410 L160 520 Q160 545 180 570 L392 775 Q400 782 408 775 L620 570 Q640 545 640 520 L640 410 L725 438 L520 255 Q575 360 575 480 L575 520 Q575 540 560 555 L432 680 L453 500 Q455 490 448 484 L405 457 Q400 454 395 457 L352 484 Q345 490 347 500 L368 680 L240 555 Q225 540 225 520 L225 480 Q225 360 280 255 Z"/>
+        <path d="M400 295 Q440 340 447 418 L408 395 Q400 390 392 395 L353 418 Q360 340 400 295 Z"/>
+      </symbol>
+      <!-- Icone di ruolo originali: mini-mappa con la corsia evidenziata -->
+      <symbol id="role-top" viewBox="0 0 32 32"><rect class="r-base" x="3" y="3" width="26" height="26" rx="6"/><path class="r-lane" d="M7 25V7h18"/><circle class="r-dot" cx="7" cy="7" r="2.4"/></symbol>
+      <symbol id="role-jungle" viewBox="0 0 32 32"><rect class="r-base" x="3" y="3" width="26" height="26" rx="6"/><path class="r-lane" d="M16 7c6 4 7 11 0 18-7-7-6-14 0-18zM16 11v10"/></symbol>
+      <symbol id="role-mid" viewBox="0 0 32 32"><rect class="r-base" x="3" y="3" width="26" height="26" rx="6"/><path class="r-lane" d="M8 24 24 8"/><circle class="r-dot" cx="16" cy="16" r="2.4"/></symbol>
+      <symbol id="role-bot" viewBox="0 0 32 32"><rect class="r-base" x="3" y="3" width="26" height="26" rx="6"/><path class="r-lane" d="M7 25h18V7"/><circle class="r-dot" cx="25" cy="25" r="2.4"/></symbol>
+      <symbol id="role-support" viewBox="0 0 32 32"><rect class="r-base" x="3" y="3" width="26" height="26" rx="6"/><path class="r-lane" d="M16 7l7 3v6c0 4.5-3 7.6-7 9-4-1.4-7-4.5-7-9v-6z"/><path class="r-lane" d="M16 12v8M12 16h8"/></symbol>
+      <symbol id="bolt" viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></symbol>
+    </defs>
+  </svg>
+
+  <div class="x-bg" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="index.html" data-dive="Pokémon VGC" aria-label="Team Aqua ASD, torna alla home">
+      <svg class="nav__logo"><use href="#trident"/></svg>
+      <span>Team Aqua <em>LoL</em></span>
+    </a>
+    <div class="switch" data-switch data-active="lol" role="group" aria-label="Scegli la divisione">
+      <a class="switch__opt" href="index.html" data-dive="Pokémon VGC">VGC</a>
+      <a class="switch__opt" href="lol.html" aria-current="page">LoL</a>
+      <span class="switch__thumb" aria-hidden="true"></span>
+    </div>
+    <nav class="nav__links" aria-label="Principale">
+      <a href="#storia">La storia</a>
+      <a href="#roster">Roster</a>
+      <a href="#risultati">Risultati</a>
+      <a href="#onde">Prossime onde</a>
+    </nav>
+    <button class="nav__burger" type="button" aria-label="Apri il menu" aria-expanded="false" data-burger><span></span><span></span></button>
+  </header>
+
+  <main>
+    <!-- HERO in stile locandina -->
+    <section class="xhero" id="top" data-xhero>
+      <div class="xhero__pattern" aria-hidden="true"></div>
+      <div class="xhero__pattern xhero__pattern--lit" aria-hidden="true"></div>
+      <div class="xhero__ring" aria-hidden="true"></div>
+      <canvas class="xhero__sparks" data-sparks aria-hidden="true"></canvas>
+
+      <h1 class="xhero__title">
+        <span class="sr-only">Team Aqua · League of Legends</span>
+        <svg viewBox="0 0 1000 170" aria-hidden="true" data-depth="12">
+          <text x="500" y="152" text-anchor="middle">TEAM AQUA</text>
+        </svg>
+      </h1>
+
+      <div class="xhero__photo" data-depth="-8">
+        <img src="assets/lol/lineup-group.webp" alt="La lineup League of Legends di Team Aqua con la maglia del team" width="1080" height="600" fetchpriority="high">
+      </div>
+
+      <div class="xhero__bolts" aria-hidden="true"><i></i><i></i></div>
+
+      <div class="xhero__bottom">
+        <p class="xhero__big">League of Legends</p>
+        <p class="xhero__sub">LIT 2026 · Da Los Goccioles a Team Aqua</p>
+        <div class="xhero__actions">
+          <a class="btn btn--magenta" data-magnetic href="#roster">Il roster</a>
+          <a class="btn btn--ghost" href="#storia">La storia</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- TICKER -->
+    <section class="xticker" aria-label="In breve">
+      <div class="xticker__track" data-ticker>
+        <ul>
+          <li>LIT 2026 Summer Playoffs</li>
+          <li>3° posto</li>
+          <li>5 giocatori · 2 coach</li>
+          <li>Da Los Goccioles a Team Aqua</li>
+          <li>Prossima tappa: Breeze of Glory 2026</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- STORIA (fonte: Leaguepedia) -->
+    <section class="xsection xstory" id="storia">
+      <header class="xstory__head">
+        <p class="xkicker" data-reveal>La storia</p>
+        <h2 class="xdisplay" data-reveal>Dalle gocce <span class="stroke">all'oceano</span></h2>
+        <p class="xlead" data-reveal>A settembre 2026 Aeterna Esports si ritira dalla LIT a stagione in corso. I giocatori non si fermano: due giorni dopo ripartono come Los Goccioles, e quattro giorni più tardi entrano in Team Aqua.</p>
+        <ul class="xstats" data-reveal>
+          <li><strong data-count="6">0</strong><span>giorni da Aeterna a Team Aqua</span></li>
+          <li><strong data-count="3" data-suffix="°">0</strong><span>posto ai playoff LIT Summer</span></li>
+        </ul>
+      </header>
+      <ol class="xtimeline" data-timeline>
+        <li data-reveal>
+          <time datetime="2026-09-08">8 settembre 2026</time>
+          <h3>Aeterna si ritira</h3>
+          <p>Aeterna Esports lascia la LIT 2026 Summer. Il posto in campionato passa ai suoi giocatori.</p>
+        </li>
+        <li data-reveal>
+          <time datetime="2026-09-10">10 settembre 2026</time>
+          <h3>Nascono Los Goccioles</h3>
+          <p>Cinque giocatori e due coach ripartono insieme, sotto un nuovo nome.</p>
+        </li>
+        <li class="is-key" data-reveal>
+          <time datetime="2026-09-14">14 settembre 2026</time>
+          <h3>Benvenuti in Team Aqua</h3>
+          <p>Team Aqua ASD acquisisce il roster e il posto in LIT di Los Goccioles.</p>
+        </li>
+        <li data-reveal>
+          <time datetime="2026-09-18">18–19 settembre 2026</time>
+          <h3>Playoff LIT Summer</h3>
+          <p>Primo match con la nuova maglia contro Colossal Gaming: finisce 3-0 per loro. Team Aqua chiude la Summer al 3° posto.</p>
+        </li>
+        <li data-reveal>
+          <time datetime="2026-09-22">22 settembre 2026</time>
+          <h3>EMEA Masters LCQ</h3>
+          <p>La corsa europea si ferma al Last Chance Qualifier: The Otter Side vince 2-0.</p>
+        </li>
+        <li class="is-next" data-reveal>
+          <time>Prossima tappa</time>
+          <h3>Breeze of Glory 2026</h3>
+          <p>Il prossimo torneo del roster. Date da annunciare.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ROSTER (fonte: Leaguepedia) -->
+    <section class="xsection" id="roster">
+      <header class="xhead">
+        <div>
+          <p class="xkicker" data-reveal>Il roster</p>
+          <h2 class="xdisplay" data-reveal>Cinque <span class="stroke">correnti</span></h2>
+        </div>
+        <p class="xlead" data-reveal>Lo stesso gruppo da Aeterna a Los Goccioles, fino alla maglia Team Aqua.</p>
+      </header>
+      <div class="xroster" data-lroster></div>
+      <div class="xstaff">
+        <p class="xkicker" data-reveal>Staff tecnico</p>
+        <div class="xstaff__row">
+          <div class="xstaff__card" data-reveal><b>BKarv</b><span>Vasilis Karvelas</span><small>Head Coach</small></div>
+          <div class="xstaff__card" data-reveal><b>30FL</b><span>Maria Dionysia Triantafyllou</span><small>Assistant Coach</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- LINEUP + RISULTATI (fonte: Leaguepedia, locandina ufficiale) -->
+    <section class="xsection xresults" id="risultati">
+      <header class="xhead">
+        <div>
+          <p class="xkicker" data-reveal>Risultati</p>
+          <h2 class="xdisplay" data-reveal>Le prime <span class="stroke">maree</span></h2>
+        </div>
+      </header>
+      <div class="xresults__grid">
+        <figure class="xposter holo" data-holo data-reveal>
+          <img src="assets/lol/lineup-lit-2026.webp" alt="Locandina della lineup Team Aqua per i LIT 2026 Summer Playoffs del 18 e 19 settembre 2026" width="1080" height="1350" loading="lazy">
+          <div class="holo__shine"></div>
+          <figcaption>Lineup · LIT 2026 Summer Playoffs</figcaption>
+        </figure>
+        <div class="xmatches">
+          <article class="xmatch" data-reveal>
+            <header><span class="xtag">LIT 2026 Summer · Playoff</span><time datetime="2026-09-18">18 set 2026</time></header>
+            <div class="xmatch__score">
+              <div class="xmatch__team"><b>CG</b><small>Colossal Gaming</small></div>
+              <div class="xmatch__num">3<i>–</i>0</div>
+              <div class="xmatch__team xmatch__team--us"><b>AQUA</b><small>Team Aqua ASD</small></div>
+            </div>
+            <footer>Al meglio di 5 · <strong>3° posto finale</strong></footer>
+          </article>
+          <article class="xmatch" data-reveal>
+            <header><span class="xtag">EMEA Masters Summer · LCQ</span><time datetime="2026-09-22">22 set 2026</time></header>
+            <div class="xmatch__score">
+              <div class="xmatch__team"><b>OTS</b><small>The Otter Side</small></div>
+              <div class="xmatch__num">2<i>–</i>0</div>
+              <div class="xmatch__team xmatch__team--us"><b>AQUA</b><small>Team Aqua ASD</small></div>
+            </div>
+            <footer>Al meglio di 3 · Non qualificati</footer>
+          </article>
+          <article class="xmatch xmatch--next" data-reveal>
+            <header><span class="xtag xtag--live">Prossimo torneo</span></header>
+            <p class="xmatch__next">Breeze of Glory 2026</p>
+            <footer>Date da annunciare</footer>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROSSIME ONDE
+         ⚠ CONTENUTO INVENTATO (segnaposto per il prototipo): academy, bootcamp,
+         watch party e obiettivo 2027 non sono annunci reali. Da validare col team. -->
+    <section class="xsection" id="onde">
+      <header class="xhead">
+        <div>
+          <p class="xkicker" data-reveal>In arrivo</p>
+          <h2 class="xdisplay" data-reveal>Prossime <span class="stroke">onde</span></h2>
+        </div>
+        <p class="xlead" data-reveal>La divisione cresce: nuovi giocatori, preparazione e momenti con la community.</p>
+      </header>
+      <div class="xgoal" data-reveal>
+        <span class="xgoal__label">Obiettivo 2027</span>
+        <p class="xgoal__title">EMEA Masters</p>
+        <p class="xgoal__text">Dopo il Last Chance Qualifier di settembre il traguardo è chiaro: entrare dalla porta principale.</p>
+        <svg class="xgoal__bolt" aria-hidden="true"><use href="#bolt"/></svg>
+      </div>
+      <div class="xcards">
+        <a class="xcard" href="#onde" data-reveal>
+          <span class="xcard__meta">Tryout · Dicembre 2026</span>
+          <h3>Aqua Academy</h3>
+          <p>Tryout aperti per la squadra academy: cerchiamo giocatori italiani pronti a crescere accanto al roster principale.</p>
+          <span class="xcard__go">Candidati</span>
+        </a>
+        <a class="xcard" href="#onde" data-reveal>
+          <span class="xcard__meta">Gennaio 2027</span>
+          <h3>Bootcamp invernale</h3>
+          <p>Una settimana di bootcamp a Milano per preparare la stagione Spring, con scrim contro team europei.</p>
+          <span class="xcard__go">Scopri</span>
+        </a>
+        <a class="xcard" href="#onde" data-reveal>
+          <span class="xcard__meta">Community</span>
+          <h3>Watch party</h3>
+          <p>Ogni partita di Breeze of Glory in diretta con la community, tra Discord e Twitch.</p>
+          <span class="xcard__go">Partecipa</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- PARTNER (barra sponsor della locandina) -->
+    <section class="xsponsors" aria-label="Partner">
+      <p class="xkicker">Partner</p>
+      <img src="assets/lol/sponsor-bar.webp" alt="Partner: Nerdmatic, Blueberry, AiGrading, Studio EPR, Centro del Fumetto" width="1080" height="94" loading="lazy">
+    </section>
+
+  </main>
+
+  <footer class="footer xfooter">
+    <div class="footer__big" aria-hidden="true">Team Aqua</div>
+    <div class="footer__grid">
+      <div>
+        <a class="nav__brand" href="index.html" data-dive="Pokémon VGC"><svg class="nav__logo"><use href="#trident"/></svg><span>Team Aqua <em>ASD</em></span></a>
+        <p class="footer__note">Affiliati a FIDE · Federazione Italiana Discipline Elettroniche</p>
+      </div>
+      <div>
+        <h4>Contatti</h4>
+        <a href="mailto:teamaquavgc@gmail.com">teamaquavgc@gmail.com</a>
+        <a href="mailto:teamaquaeventi@gmail.com">teamaquaeventi@gmail.com</a>
+      </div>
+      <div>
+        <h4>Divisioni</h4>
+        <a href="index.html" data-dive="Pokémon VGC">Pokémon VGC</a>
+        <a href="#top">League of Legends</a>
+      </div>
+      <div>
+        <h4>Società</h4>
+        <p>Team Aqua ASD<br>C.F. 91600750151<br>P.IVA 12682620963</p>
+      </div>
+    </div>
+    <p class="footer__legal">© 2026 Team Aqua ASD · Tutti i diritti riservati · Dati roster e risultati da Leaguepedia</p>
+  </footer>
+
+  <script src="lol.js" type="module"></script>
+</body>
+</html>

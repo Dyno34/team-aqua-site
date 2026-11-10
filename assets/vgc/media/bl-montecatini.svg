@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <!-- Grafica per la tappa di Montecatini Terme (settembre 2025), al posto della foto -->
+  <defs>
+    <radialGradient id="bg" cx="70%" cy="20%" r="95%">
+      <stop offset="0" stop-color="#0D78F2"/>
+      <stop offset=".45" stop-color="#070E6B"/>
+      <stop offset="1" stop-color="#020414"/>
+    </radialGradient>
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5FE3FF" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#0165D5" stop-opacity=".08"/>
+    </linearGradient>
+    <linearGradient id="fade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#EAF4FF"/>
+      <stop offset="1" stop-color="#5FE3FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bg)"/>
+  <!-- maxischermo stilizzato -->
+  <rect x="610" y="120" width="500" height="290" rx="18" fill="url(#screen)" stroke="#5FE3FF" stroke-opacity=".55" stroke-width="3"/>
+  <path d="M760 410 L740 470 M960 410 L980 470 M700 470 H1020" stroke="#5FE3FF" stroke-opacity=".45" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <g transform="translate(860 265) scale(.26) translate(-400 -517)" fill="#EAF4FF" opacity=".95">
+    <path d="M280 255 L75 438 L160 410 L160 520 Q160 545 180 570 L392 775 Q400 782 408 775 L620 570 Q640 545 640 520 L640 410 L725 438 L520 255 Q575 360 575 480 L575 520 Q575 540 560 555 L432 680 L453 500 Q455 490 448 484 L405 457 Q400 454 395 457 L352 484 Q345 490 347 500 L368 680 L240 555 Q225 540 225 520 L225 480 Q225 360 280 255 Z"/>
+    <path d="M400 295 Q440 340 447 418 L408 395 Q400 390 392 395 L353 418 Q360 340 400 295 Z"/>
+  </g>
+  <circle cx="640" cy="148" r="9" fill="#E5243B"/>
+  <text x="658" y="156" font-family="Menlo, monospace" font-size="22" font-weight="700" fill="#FFFFFF" letter-spacing="3">LIVE · REGIONALE DI FRANCOFORTE</text>
+  <!-- testi -->
+  <text x="90" y="560" font-family="'Bebas Neue', Impact, 'Arial Narrow', sans-serif" font-size="128" fill="url(#fade)" letter-spacing="2">MONTECATINI</text>
+  <text x="90" y="680" font-family="'Bebas Neue', Impact, 'Arial Narrow', sans-serif" font-size="128" fill="none" stroke="#EAF4FF" stroke-width="2.5" letter-spacing="2">TERME</text>
+  <text x="92" y="752" font-family="Menlo, monospace" font-size="26" fill="#5FE3FF" letter-spacing="5">SETTEMBRE 2025</text>
+  <text x="92" y="806" font-family="Menlo, monospace" font-size="22" fill="#EAF4FF" fill-opacity=".7" letter-spacing="3">TEAM AQUA × PG ESPORTS · CIRCUITO TORMENTA</text>
+</svg>

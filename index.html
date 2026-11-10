@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Team Aqua ASD — Pokémon VGC</title>
+  <meta name="description" content="Team Aqua ASD: il team italiano di Pokémon VGC. Roster, risultati, format, VCL e magazine.">
+  <meta name="theme-color" content="#070E6B">
+  <link rel="icon" href="assets/common/favicon-64.png">
+  <link rel="apple-touch-icon" href="assets/common/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=JetBrains+Mono:wght@400;600&family=Montserrat:ital,wght@1,900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="sections-fx.css">
+  <script>document.documentElement.classList.add('js'); try { if (sessionStorage.getItem('aqua-dive')) document.documentElement.classList.add('is-arriving'); } catch (e) {}</script>
+</head>
+<body>
+  <!-- Tridente ricostruito in vettoriale dal logo ufficiale -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="trident" viewBox="70 250 660 535">
+        <path d="M280 255 L75 438 L160 410 L160 520 Q160 545 180 570 L392 775 Q400 782 408 775 L620 570 Q640 545 640 520 L640 410 L725 438 L520 255 Q575 360 575 480 L575 520 Q575 540 560 555 L432 680 L453 500 Q455 490 448 484 L405 457 Q400 454 395 457 L352 484 Q345 490 347 500 L368 680 L240 555 Q225 540 225 520 L225 480 Q225 360 280 255 Z"/>
+        <path d="M400 295 Q440 340 447 418 L408 395 Q400 390 392 395 L353 418 Q360 340 400 295 Z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="depth-bg" aria-hidden="true"></div>
+  <div class="depth-dark" aria-hidden="true"></div>
+  <div class="fx-rays" aria-hidden="true"></div>
+  <canvas class="fx-ambient" data-ambient aria-hidden="true"></canvas>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <header class="nav" data-nav>
+    <a class="nav__brand" href="#top" aria-label="Team Aqua ASD, torna su">
+      <svg class="nav__logo"><use href="#trident"/></svg>
+      <span>Team Aqua <em>ASD</em></span>
+    </a>
+    <div class="switch" data-switch data-active="vgc" role="group" aria-label="Scegli la divisione">
+      <a class="switch__opt" href="index.html" aria-current="page">VGC</a>
+      <a class="switch__opt" href="lol.html" data-dive="League of Legends">LoL</a>
+      <span class="switch__thumb" aria-hidden="true"></span>
+    </div>
+    <nav class="nav__links" aria-label="Principale">
+      <a href="#tarl">TARL</a>
+      <a href="#eventi">Dal vivo</a>
+      <a href="#vcl">VCL</a>
+      <a href="#shop">Shop</a>
+      <a href="#magazine">Magazine</a>
+      <a href="#roster">Roster</a>
+      <a class="nav__menu-only" href="https://teamaquastore.myshopify.com/" target="_blank" rel="noopener">Merch</a>
+    </nav>
+    <a class="btn btn--small btn--primary nav__cta" href="https://teamaquastore.myshopify.com/" target="_blank" rel="noopener">Merch</a>
+    <button class="nav__burger" type="button" aria-label="Apri il menu" aria-expanded="false" data-burger><span></span><span></span></button>
+  </header>
+
+  <aside class="depth" aria-hidden="true">
+    <div class="depth__readout"><span class="depth__value" data-depth-value>0</span><span class="depth__unit">m</span></div>
+    <div class="depth__track"><div class="depth__fill" data-depth-fill></div></div>
+    <span class="depth__label" data-depth-label>Superficie</span>
+  </aside>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="top" data-hero>
+      <canvas class="hero__water" data-water aria-hidden="true"></canvas>
+      <h1 class="hero__title" data-hero-title>Team Aqua</h1>
+
+      <!-- Giocatori ai lati del tridente: foto dal Roster, scontornate e ingrandite -->
+      <div class="hero__players" data-players>
+        <!-- ordine da sinistra: Pardini, Del Pidio | tridente | Cunha, Kaieda.
+             I due interni (Del Pidio, Cunha) stanno davanti agli esterni. -->
+        <figure class="hp hp--outer" style="--x:11%;--s:1.08;--delay:1.8s;--src:url('assets/vgc/players/pardo.webp')">
+          <span class="hp__body"><img src="assets/vgc/players/pardo.webp" alt="Francesco Pardini con la maglia Team Aqua" width="767" height="1300" fetchpriority="high"></span>
+        </figure>
+        <figure class="hp hp--inner" style="--x:29%;--s:1;--delay:1.92s;--src:url('assets/vgc/players/fdp.webp')">
+          <span class="hp__body"><img src="assets/vgc/players/fdp.webp" alt="Flavio Del Pidio con la maglia Team Aqua" width="879" height="1300" fetchpriority="high"></span>
+        </figure>
+        <figure class="hp hp--inner" style="--x:71%;--s:1;--delay:2.04s;--src:url('assets/vgc/players/ec.webp')">
+          <span class="hp__body"><img src="assets/vgc/players/ec.webp" alt="Eduardo Cunha con la maglia Team Aqua" width="824" height="1300" fetchpriority="high"></span>
+        </figure>
+        <figure class="hp hp--outer" style="--x:89%;--s:1.1;--delay:2.16s;--src:url('assets/vgc/players/jk.webp')">
+          <span class="hp__body"><img src="assets/vgc/players/jk.webp" alt="Joji Kaieda con la maglia Team Aqua" width="739" height="1300" fetchpriority="high"></span>
+        </figure>
+      </div>
+      <div class="hero__scrim" aria-hidden="true"></div>
+
+      <canvas class="hero__trident" data-trident role="img" aria-label="Il tridente di Team Aqua formato da particelle d'acqua"></canvas>
+
+      <div class="hero__content">
+        <div class="hero__text">
+          <p class="hero__badge"><span class="pulse"></span>Nel roster il Campione del Mondo VGC 2022</p>
+          <p class="hero__lead">Associazione sportiva dedicata al competitivo Pokémon. Giocatori da palco mondiale, format originali, ricerca e una community che non smette di crescere.</p>
+        </div>
+        <div class="hero__actions">
+          <a class="btn btn--primary" data-magnetic href="#roster">Scopri il roster</a>
+          <a class="btn btn--ghost" href="#tarl">Scopri la TARL</a>
+        </div>
+      </div>
+
+      <a class="hero__scroll" href="#risultati" aria-label="Scorri ai risultati">
+        <span>Immergiti</span><i></i>
+      </a>
+      <p class="hero__hint" aria-hidden="true">Muovi il cursore sull'acqua · clicca per un'onda</p>
+    </section>
+
+    <!-- TICKER RISULTATI -->
+    <section class="ticker" id="risultati" aria-label="Ultimi risultati del team">
+      <div class="ticker__track" data-ticker>
+        <ul class="ticker__list">
+          <li><b>Campione del Mondo 2022</b> Eduardo Cunha</li>
+          <li><b>Winner · VCL 2026 2nd Division</b> Team Aqua</li>
+          <li><b>Campione · Global Challenge 2026</b> Joji Kaieda</li>
+          <li><b>Finalista · Regionale Nizza 2026</b> Eduardo Cunha</li>
+          <li><b>Finalista · Regionale Lille 2026</b> Eduardo Cunha</li>
+          <li><b>Top 8 · Regionale Sydney 2026</b> Joji Kaieda</li>
+          <li><b>Top 4 · NAIC 2024</b> Eduardo Cunha</li>
+          <li><b>2° posto · Mondiali 2011</b> Matteo Gini</li>
+          <li><b>Campione · Nazionale Tedesco 2013</b> Alberto Gini</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         COSA FA IL TEAM AQUA
+         Testi ripresi da teamaqua.it (TARL, Streaming dei Regionali, Battle Lab,
+         Talk & Exhibition Match, articolo Battle Cruise), dallo store Shopify
+         e da desafiolatamvgc.com per la VCL.
+         ====================================================== -->
+
+    <!-- 1. TARL -->
+    <section class="tarl section" id="tarl" data-zone>
+      <div class="tarl__intro">
+        <div class="tarl__text">
+          <p class="kicker" data-reveal>Team Aqua Research Lab (TARL)</p>
+          <h2 class="tarl__title" data-reveal>La prima scuola di competitivo Pokémon <span class="outline">dal vivo in Italia!</span></h2>
+          <p class="lead" data-reveal>La Team Aqua Research Lab è il progetto formativo firmato Team Aqua, pensato per allenare la prossima generazione di campioni del competitivo Pokémon. Ogni anno, la TARL porta in diverse città italiane un’esperienza unica che combina lezioni teoriche, allenamenti pratici e momenti di community, offrendo ai partecipanti la possibilità di imparare direttamente dai pro player del team più titolato in Italia.</p>
+          <p class="tarl__strong" data-reveal>Quattro giorni intensivi per entrare nel cuore del competitivo, migliorare le proprie abilità e vivere l’atmosfera del Team Aqua da protagonisti.</p>
+        </div>
+        <div class="tarl__collage" data-reveal>
+          <figure class="tarl__ph tarl__ph--main"><img src="assets/vgc/media/tarl-classe.webp" alt="La classe della TARL con lo staff del Team Aqua" loading="lazy"></figure>
+          <figure class="tarl__ph tarl__ph--a"><img src="assets/vgc/media/tarl-lezione.webp" alt="Una lezione della TARL" loading="lazy"></figure>
+          <figure class="tarl__ph tarl__ph--b"><img src="assets/vgc/media/tarl-ospiti.webp" alt="Ospiti alla TARL di Livorno 2024" loading="lazy"></figure>
+          <img class="tarl__logo" src="assets/vgc/media/tarl-logo.webp" alt="Logo TARL" loading="lazy">
+        </div>
+      </div>
+
+      <div class="tarl__how">
+        <h3 class="tarl__sub" data-reveal>In cosa consiste</h3>
+        <ol class="tarl__steps">
+          <li data-reveal><span>01</span>Lezioni e workshop sulle meccaniche di gioco, la costruzione dei team e le strategie avanzate.</li>
+          <li data-reveal><span>02</span>Allenamenti pratici con i pro player del Team Aqua, per mettere subito in pratica ciò che si impara.</li>
+          <li data-reveal><span>03</span>Analisi e feedback dei match, con correzioni e consigli personalizzati.</li>
+          <li data-reveal><span>04</span>Community e divertimento, per conoscere altri appassionati e condividere la stessa passione in un ambiente positivo e stimolante.</li>
+        </ol>
+      </div>
+
+      <div class="tarl__editions">
+        <div class="hs__pin">
+          <div class="hs__head">
+            <h3 class="tarl__sub">Edizioni passate</h3>
+          </div>
+          <div class="tarl__track" data-reveal>
+            <article class="edition" data-year="2017">
+              <figure class="edition__img"><img src="assets/vgc/media/tarl-logo.webp" alt="Logo della TARL" loading="lazy"></figure>
+              <span class="edition__year">2017</span>
+              <h4>Livorno 2017</h4>
+              <p>È qui che tutto è iniziato: la prima edizione, che ha dato vita al progetto e formato i primi partecipanti, ospitata in una location d’eccezione: l’Acquario di Livorno.</p>
+            </article>
+            <article class="edition" data-year="2022">
+              <figure class="edition__img"><img src="assets/vgc/media/tarl-sala.webp" alt="Una sala della TARL" loading="lazy"></figure>
+              <span class="edition__year">2022</span>
+              <h4>Livorno 2022</h4>
+              <p>La TARL che ha fatto la storia! Senza dubbio tra le edizioni più speciali della TARL, è stata piena di emozioni, momenti indimenticabili e ospiti di rilievo:</p>
+              <ul><li>Cydonia, uno dei volti più amati della community</li><li>Guillermo Castilla, che solo poche settimane dopo avrebbe raggiunto la finale dei Mondiali</li></ul>
+            </article>
+            <article class="edition" data-year="2024">
+              <figure class="edition__img"><img src="assets/vgc/media/tarl-ospiti.webp" alt="Emanuela Pacotto ospite alla TARL di Livorno 2024" loading="lazy"></figure>
+              <span class="edition__year">2024</span>
+              <h4>Livorno 2024</h4>
+              <p>Esperienza straordinaria con Emanuela Pacotto, la voce che ha dato vita a tanti personaggi della nostra infanzia, inclusa la mitica Jessie dell’anime di Pokémon!</p>
+            </article>
+            <article class="edition" data-year="2025">
+              <figure class="edition__img"><img src="assets/vgc/media/tarl-lezione2.webp" alt="Una lezione della TARL di Milano" loading="lazy"></figure>
+              <span class="edition__year">2025</span>
+              <h4>Milano (2025)</h4>
+              <p>Un successo straordinario: per la prima volta la TARL approda in un’altra città, con lezioni sold out, nuovi format di allenamento e un pubblico in costante crescita.</p>
+            </article>
+            <a class="edition edition--next" data-year="2027" href="https://teamaqua.it/tarl-2027-champions-edition">
+              <figure class="edition__img"><img src="assets/vgc/media/tarl-classe.webp" alt="La classe della TARL" loading="lazy"></figure>
+              <span class="edition__year">2027</span>
+              <h4>TARL 2027 Champions Edition</h4>
+              <p>Le attività si svolgeranno da mercoledì 21 a sabato 24 luglio 2027!</p>
+              <p class="edition__meta">Lezioni di VGC · Attività speciali · Torneo finale</p>
+              <span class="btn btn--primary btn--small">Iscriviti adesso!</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <blockquote class="tarl__quote" data-reveal>
+        <p>È un’autentica occasione di vita, che va ben oltre il VGC!</p>
+        <cite>Elena, partecipante alla quattordicesima edizione</cite>
+      </blockquote>
+    </section>
+
+    <!-- SPONSOR: barra sottile a scorrimento, solo loghi -->
+    <div class="smarquee" id="sponsor" role="region" aria-label="Sponsor e partner" data-velocity>
+      <div class="smarquee__track" data-marquee>
+        <ul class="smarquee__list">
+          <li><img src="assets/vgc/sponsor/nerdmatic.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/blueberry.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/aigrading.svg" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/studio-epr.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/centro-del-fumetto.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/pardini.png" alt="" loading="lazy"></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 2. STREAMING -->
+    <section class="stream section" id="streaming" data-zone>
+      <div class="stream__player" data-stream>
+        <div class="stream__screen">
+          <img src="assets/vgc/media/streaming.webp" alt="Francesco Pardini e un ospite in diretta durante lo streaming di un Regionale" loading="lazy">
+          <span class="stream__live">Live</span>
+          <a class="stream__play" href="https://www.twitch.tv/francescopardinivgc" target="_blank" rel="noopener" aria-label="Guarda le dirette su Twitch">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </a>
+        </div>
+        <div class="stream__bar" aria-hidden="true"><i></i></div>
+        <div class="stream__reactions" data-reactions aria-hidden="true"></div>
+      </div>
+      <div class="stream__text">
+        <p class="kicker" data-reveal>Streaming dei Regionali</p>
+        <h2 class="display" data-reveal>Segui le sfide <span class="outline">da casa</span></h2>
+        <p class="lead" data-reveal>Segui le sfide Pokémon più intense direttamente da casa! I Regionali sono il secondo evento per dimensioni, dopo i Campionati Internazionali Pokémon, in termini sia di numero di partecipanti che di Championship Point in palio—noi di Team Aqua garantiamo lo streaming live di questi eventi, con commento, analisi e copertura completa, per permettere a chiunque di seguirli da casa.</p>
+        <ul class="stream__list" data-reveal>
+          <li><b>Dirette live</b> di tutto il torneo</li>
+          <li><b>Replay</b> — se ti sei perso la diretta, recupera le migliori partite e momenti sul canale dei ricaricamenti</li>
+          <li><b>Commento &amp; analisi</b> — spiegazioni in tempo reale, ospiti / caster, approfondimenti strategici</li>
+        </ul>
+        <p class="stream__cta-title" data-reveal>Non perdere la prossima diretta!</p>
+        <div class="stream__actions" data-reveal>
+          <a class="btn btn--primary" data-magnetic href="https://www.twitch.tv/francescopardinivgc" target="_blank" rel="noopener">Guarda su Twitch</a>
+          <a class="btn btn--ghost" href="https://www.youtube.com/watch?v=x-JjiafOLfY&amp;list=PLTF90uUYvdyOT3bLsxultfWWIljV_G--u" target="_blank" rel="noopener">Replay su YouTube</a>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- 4. DAL VIVO: Battle Lab, Battle Cruise, Talk & Exhibition -->
+    <section class="live section" id="eventi" data-zone>
+      <header class="kinetic" data-kinetic>
+        <p class="kicker" data-reveal>Dal vivo</p>
+        <h2 class="kinetic__lines" data-kinetic-lines aria-label="Allenarsi. Confrontarsi. Crescere.">
+          <span class="kinetic__line" data-dir="1" aria-hidden="true">Allenarsi. Allenarsi. Allenarsi. Allenarsi. Allenarsi.</span>
+          <span class="kinetic__line kinetic__line--outline" data-dir="-1" aria-hidden="true">Confrontarsi. Confrontarsi. Confrontarsi. Confrontarsi.</span>
+          <span class="kinetic__line kinetic__line--cyan" data-dir="1" aria-hidden="true">Crescere. Crescere. Crescere. Crescere. Crescere.</span>
+        </h2>
+        <p class="lead kinetic__lead" data-reveal>Questo è lo spirito del Battle Lab.</p>
+      </header>
+
+      <!-- Battle Lab -->
+      <article class="blab">
+        <div class="blab__text">
+          <h3 class="blab__title" data-reveal>Battle Lab</h3>
+          <p data-reveal>Il Battle Lab è un’esperienza unica: un laboratorio interattivo dove i visitatori possono vivere le battaglie Pokémon da un punto di vista nuovo, più maturo, e scoprire la profondità strategica del VGC (Video Game Championships).</p>
+          <p data-reveal>Nato in collaborazione con Nintendo e The Pokémon Company, il Team Aqua con il Battle Lab porta il competitivo sin dalla prima edizione alla Milan Games Week del 2024 fuori dallo schermo e lo trasforma in un momento di incontro, formazione e condivisione.</p>
+          <ul class="blab__do" data-reveal>
+            <li>sfidare dal vivo i giocatori professionisti del Team Aqua,</li>
+            <li>ricevere consigli personalizzati,</li>
+            <li>assistere ad analisi e spiegazioni strategiche,</li>
+            <li>e vivere l’atmosfera di un torneo vero, ma aperto a tutti.</li>
+          </ul>
+          <blockquote class="blab__quote" data-reveal>
+            <p>“Pokémon competitivo è come una partita a scacchi: un gioco con una complessità molto profonda, particolarità non così nota agli occhi del pubblico. Il Battle Lab è il luogo dove questo mondo prende vita.”</p>
+            <cite>Angelo Peruzzi, Presidente Team Aqua</cite>
+          </blockquote>
+        </div>
+        <div class="blab__stops" data-stops data-reveal>
+          <div class="blab__media">
+            <img src="assets/vgc/media/bl-mgw.webp" alt="Il Battle Lab alla Milano Games Week 2024" data-stop-img loading="lazy">
+          </div>
+          <div class="blab__tabs" role="tablist" aria-label="Le edizioni del Battle Lab">
+            <button class="blab__tab" role="tab" aria-selected="true" data-img="assets/vgc/media/bl-mgw.webp" data-alt="Il Battle Lab alla Milano Games Week 2024">Milano Games Week 2024</button>
+            <button class="blab__tab" role="tab" aria-selected="false" data-img="assets/vgc/media/bl-sfida.webp" data-alt="Una sfida al Battle Lab di Rho">Rho · Febbraio 2025</button>
+            <button class="blab__tab" role="tab" aria-selected="false" data-img="assets/vgc/media/bl-postazioni.webp" data-alt="Lo stand Team Aqua al Florence Game Festival 2025">Florence Game Festival 2025</button>
+            <button class="blab__tab" role="tab" aria-selected="false" data-img="assets/vgc/media/bl-fiumicino.webp" data-alt="Il Battle Lab brandizzato al centro commerciale di Fiumicino">Centri commerciali · Fiumicino</button>
+            <button class="blab__tab" role="tab" aria-selected="false" data-img="assets/vgc/media/bl-montecatini.svg" data-alt="Montecatini Terme, settembre 2025: Team Aqua con PG Esports alle finali del circuito Tormenta">Montecatini Terme · Settembre 2025</button>
+          </div>
+          <div class="blab__panel" role="tabpanel" aria-live="polite">
+            <p data-stop-text>Il primo Battle Lab al mondo realizzato da un team esterno e approvato da Nintendo. Un successo straordinario: oltre 800 visitatori, 3 giorni di eventi, file alle postazioni e centinaia di sfide. Il pubblico ha potuto conoscere il competitivo da vicino, vivendo un’esperienza immersiva che univa professionalità e divertimento.</p>
+          </div>
+          <template data-stop-texts>
+            <p>Il primo Battle Lab al mondo realizzato da un team esterno e approvato da Nintendo. Un successo straordinario: oltre 800 visitatori, 3 giorni di eventi, file alle postazioni e centinaia di sfide. Il pubblico ha potuto conoscere il competitivo da vicino, vivendo un’esperienza immersiva che univa professionalità e divertimento.</p>
+            <p>Un evento speciale a scopo benefico in collaborazione con la Cooperativa Sociale Onlus Metafora grazie all'iniziativa di un nostro giocatore professionista, Davide Miraglia. Un pomeriggio di gioco e solidarietà, con raccolta fondi e tante emozioni condivise</p>
+            <p>Invitati da Dario Moccia, il Team Aqua ha introdotto per la prima volta il mondo Pokémon competitivo all’interno del festival. Con un’affluenza record, lo stand Team Aqua è risultato il più visitato dell’evento, a testimonianza del crescente interesse verso il VGC e la qualità delle attività proposte.</p>
+            <p>A Fiumicino, il Team Aqua ha realizzato il primo Battle Lab interamente brandizzato: scenografie ispirate alla Lega Pokémon, vetrine tematiche e aree espositive. Un evento che ha coinvolto famiglie, curiosi e fan, trasformando il centro commerciale in un vero e proprio raduno Pokémon.</p>
+            <p>L’ultima tappa, in cui per la prima volta, Pokémon competitivo ha condiviso la scena con il mondo E-Sport di PG Esports, nell’ambito delle finali nazionali del circuito Tormenta di League of Legends. Un simbolo di collaborazione tra diverse realtà del gaming competitivo, culminato con la proiezione sul maxi schermo del Regionale di Francoforte in diretta streaming con il Team Aqua.</p>
+          </template>
+        </div>
+      </article>
+
+      <!-- Battle Cruise -->
+      <article class="cruise" data-cruise>
+        <img class="cruise__bg" src="assets/vgc/media/cruise-gruppo.webp" alt="I partecipanti della Battle Cruise a bordo della MSC Magnifica" loading="lazy">
+        <div class="cruise__body">
+          <p class="kicker">Battle Cruise · 25–29 ottobre 2026</p>
+          <h3 class="cruise__title">Benvenuti a bordo della Battle Cruise!</h3>
+          <p class="cruise__text">Dal 25 al 29 ottobre 2026, a bordo della MSC Magnifica, il Team Aqua ha realizzato il sogno di quasi 130 giocatori tra VGC e TCG: un torneo su una vera nave da crociera! L'esperienza di cinque giorni è salpata da Genova per poi proseguire verso Marsiglia e Barcellona.</p>
+          <ul class="cruise__stats">
+            <li><strong data-count="130" data-prefix="~">~130</strong><span>giocatori tra VGC e TCG</span></li>
+            <li><strong data-count="5">5</strong><span>giorni in mare</span></li>
+            <li><strong data-count="2000" data-suffix=" €">2000 €</strong><span>montepremi per ogni main event</span></li>
+          </ul>
+          <div class="route" data-route role="img" aria-label="Rotta della Battle Cruise: Genova, Marsiglia, Barcellona">
+            <svg viewBox="0 0 440 130" aria-hidden="true">
+              <path class="route__base" d="M410 26 C 350 14, 300 60, 240 52 S 120 30, 34 104"/>
+              <path class="route__line" pathLength="1" d="M410 26 C 350 14, 300 60, 240 52 S 120 30, 34 104" data-route-path/>
+              <g class="route__ship" data-route-ship><path d="M-12 2 H12 L7 9 H-7 Z"/><path d="M-1 1 V-14 L9 -2 H-1"/></g>
+            </svg>
+            <span class="route__port" data-port="0">Genova</span>
+            <span class="route__port" data-port=".52">Marsiglia</span>
+            <span class="route__port" data-port="1">Barcellona</span>
+          </div>
+          <a class="btn btn--primary" data-magnetic href="https://teamaqua.it/oltre-il-porto-di-aranciopoli-il-sogno-della-battle-cruise-">Leggi il racconto</a>
+        </div>
+      </article>
+
+      <!-- SPONSOR: barra sottile a scorrimento, solo loghi -->
+    <div class="smarquee smarquee--bleed" role="region" aria-label="Sponsor e partner" data-velocity>
+      <div class="smarquee__track" data-marquee>
+        <ul class="smarquee__list">
+          <li><img src="assets/vgc/sponsor/nerdmatic.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/blueberry.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/aigrading.svg" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/studio-epr.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/centro-del-fumetto.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/pardini.png" alt="" loading="lazy"></li>
+        </ul>
+      </div>
+    </div>
+
+      <!-- Talk & Exhibition Match -->
+      <article class="talk">
+        <figure class="talk__media" data-reveal><img src="assets/vgc/media/talk.webp" alt="Un Team Aqua Talk davanti al pubblico" loading="lazy"></figure>
+        <div class="talk__body">
+          <p class="kicker" data-reveal>Team Aqua Talk &amp; Exhibition Match</p>
+          <h3 class="talk__title" data-reveal>Dove la strategia incontra l'intrattenimento</h3>
+          <p data-reveal>Il Team Aqua Talk &amp; Exhibition Match è un format che unisce divulgazione e competizione dal vivo.</p>
+          <div class="talk__cols">
+            <div data-reveal>
+              <h4>Talk</h4>
+              <p>Il Talk è il cuore del format: un incontro dinamico in cui i giocatori, i caster e gli esperti del Team Aqua spiegano il lato più profondo del competitivo Pokémon.</p>
+            </div>
+            <div data-reveal>
+              <h4>Exhibition</h4>
+              <p>Una sfida dimostrativa proiettata su grande schermo e commentata in tempo reale dallo staff del Team Aqua.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- 5. VCL -->
+    <section class="vcl2 section" id="vcl" data-zone>
+      <canvas class="vcl2__confetti" data-confetti aria-hidden="true"></canvas>
+      <div class="vcl2__head">
+        <p class="kicker" data-reveal>VGC Challenge League</p>
+        <h2 class="vcl2__title" data-reveal>Campioni <span>2nd Division</span></h2>
+        <p class="lead" data-reveal>Team Aqua ASD vince la 2026 Season 6 della VCL, la lega a squadre organizzata da Desafío LATAM. Quattro partecipazioni dal debutto nel 2022, tre titoli in bacheca.</p>
+      </div>
+      <div class="vcl2__trophies">
+        <article class="trophy" data-reveal>
+          <span class="trophy__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 6h20v10a10 10 0 0 1-20 0z"/><path d="M14 10H7v3a7 7 0 0 0 7 7M34 10h7v3a7 7 0 0 1-7 7M24 26v8M16 42h16M18 42l2-8h8l2 8"/></svg></span>
+          <span class="trophy__season">2022-23 · Season 2</span>
+          <b>2nd Division Champion</b>
+        </article>
+        <article class="trophy trophy--main" data-reveal>
+          <span class="trophy__rays" aria-hidden="true"></span>
+          <span class="trophy__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 6h20v10a10 10 0 0 1-20 0z"/><path d="M14 10H7v3a7 7 0 0 0 7 7M34 10h7v3a7 7 0 0 1-7 7M24 26v8M16 42h16M18 42l2-8h8l2 8"/></svg></span>
+          <span class="trophy__season">2026 · Season 6</span>
+          <b>2nd Division Champion</b>
+        </article>
+        <article class="trophy" data-reveal>
+          <span class="trophy__icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M14 6h20v10a10 10 0 0 1-20 0z"/><path d="M14 10H7v3a7 7 0 0 0 7 7M34 10h7v3a7 7 0 0 1-7 7M24 26v8M16 42h16M18 42l2-8h8l2 8"/></svg></span>
+          <span class="trophy__season">2024 · Season 4</span>
+          <b>1st Division Ultra Cup Champion</b>
+        </article>
+      </div>
+      <figure class="vcl2__banner" data-reveal>
+        <img src="assets/common/vcl-banner.webp" alt="2026 VGC Challenge League, 2nd Division: Team Aqua winner" loading="lazy">
+      </figure>
+      <p class="vcl2__source" data-reveal>Fonte: <a href="https://desafiolatamvgc.com/team-aqua/" target="_blank" rel="noopener">profilo Team Aqua su Desafío LATAM</a></p>
+    </section>
+
+    <!-- 6. SHOP (store Shopify ufficiale) -->
+    <section class="shop" id="shop" data-zone>
+      <div class="shop__marquee" aria-hidden="true"><div><span>Collezione 2026 · Team Aqua · </span><span>Collezione 2026 · Team Aqua · </span></div></div>
+      <div class="shop__inner">
+        <header class="shop__head">
+          <div>
+            <p class="shop__kicker" data-reveal>Store ufficiale · Collezione 2026</p>
+            <h2 class="shop__title" data-reveal>Indossa la storia del Team Aqua.</h2>
+          </div>
+          <a class="shop__all" href="https://teamaquastore.myshopify.com/" target="_blank" rel="noopener" data-reveal>Vai allo store <span aria-hidden="true">↗</span></a>
+        </header>
+
+        <div class="shop__grid">
+          <!-- Jersey in evidenza con scelta del giocatore -->
+          <article class="jersey" data-jersey data-reveal>
+            <div class="jersey__stage" data-tilt>
+              <span class="jersey__shine" aria-hidden="true"></span>
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/image.webp?width=900" alt="Jersey Ufficiale TEAM AQUA 2026" loading="lazy">
+              <span class="jersey__plate" data-plate>CUNHA</span>
+            </div>
+            <div class="jersey__info">
+              <span class="jersey__tag">La maglia dei pro</span>
+              <h3>Jersey Ufficiale TEAM AQUA 2026</h3>
+              <p>Indossa la maglia del tuo giocatore preferito e vesti anche tu i colori del Team Aqua.</p>
+              <p class="jersey__label">Scegli il tuo player</p>
+              <div class="jersey__players" role="radiogroup" aria-label="Giocatore sulla maglia" data-players-picker></div>
+              <div class="jersey__buy">
+                <span class="price">69,90 €</span>
+                <a class="btn btn--navy" href="https://teamaquastore.myshopify.com/products/test-jersey-ufficiale-team-aqua-2026" target="_blank" rel="noopener" data-jersey-link>Acquista la maglia di <span data-jersey-name>CUNHA</span></a>
+              </div>
+            </div>
+          </article>
+
+          <a class="pcard" href="https://teamaquastore.myshopify.com/products/t-shirt-ufficiale-journey-team-aqua-2026" target="_blank" rel="noopener" data-reveal>
+            <div class="pcard__img">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo_1.png?width=600" alt="T-Shirt Ufficiale Journey TEAM AQUA 2026" loading="lazy">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Screenshot2026-06-05alle10.46.31.png?width=600" alt="" loading="lazy" aria-hidden="true">
+            </div>
+            <h3>T-Shirt Journey</h3>
+            <p>Questa t-shirt celebra tutti i trofei conquistati dal team dalla sua nascita nel 2006 fino a oggi.</p>
+            <span class="price">29,90 €</span>
+          </a>
+          <a class="pcard" href="https://teamaquastore.myshopify.com/products/t-shirt-ufficiale-picasso-team-aqua-2026" target="_blank" rel="noopener" data-reveal>
+            <div class="pcard__img">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo_5.png?width=600" alt="T-Shirt Ufficiale Picasso TEAM AQUA 2026" loading="lazy">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Screenshot2026-06-05alle10.52.47.png?width=600" alt="" loading="lazy" aria-hidden="true">
+            </div>
+            <h3>T-Shirt Picasso</h3>
+            <p>Il simbolo del Team Aqua, reinterpretato in chiave artistica.</p>
+            <span class="price">29,90 €</span>
+          </a>
+          <a class="pcard" href="https://teamaquastore.myshopify.com/products/t-shirt-ufficiale-logo-team-aqua-2026" target="_blank" rel="noopener" data-reveal>
+            <div class="pcard__img">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo_4.png?width=600" alt="T-Shirt Ufficiale Logo TEAM AQUA 2026" loading="lazy">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Screenshot2026-06-05alle10.53.55.png?width=600" alt="" loading="lazy" aria-hidden="true">
+            </div>
+            <h3>T-Shirt Logo</h3>
+            <p>Una t-shirt essenziale, pulita e immediatamente riconoscibile, pensata per celebrare l’identità del Team Aqua nel 2026.</p>
+            <span class="price">29,90 €</span>
+          </a>
+          <a class="pcard" href="https://teamaquastore.myshopify.com/products/test-felpa-con-cappuccio-ufficiale-team-aqua-2026" target="_blank" rel="noopener" data-reveal>
+            <div class="pcard__img">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo.png?width=600" alt="Felpa Ufficiale TEAM AQUA 2026" loading="lazy">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Screenshot2026-06-05alle10.51.17.png?width=600" alt="" loading="lazy" aria-hidden="true">
+            </div>
+            <h3>Felpa Ufficiale</h3>
+            <p>Vesti i colori del Team Aqua anche fuori dagli eventi.</p>
+            <span class="price">59,90 €</span>
+          </a>
+          <a class="pcard" href="https://teamaquastore.myshopify.com/products/trainer-kit-ufficiale-cappellino-sacca-team-aqua-2026" target="_blank" rel="noopener" data-reveal>
+            <div class="pcard__img">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo_6.png?width=600" alt="Trainer Kit Ufficiale Cappellino e Sacca TEAM AQUA 2026" loading="lazy">
+              <img src="https://cdn.shopify.com/s/files/1/1016/8195/5203/files/Presentazionesenzatitolo_7.png?width=600" alt="" loading="lazy" aria-hidden="true">
+            </div>
+            <h3>Trainer Kit</h3>
+            <p>Porta sempre con te i colori del Team Aqua, dagli eventi alla vita di tutti i giorni.</p>
+            <span class="price">24,90 €</span>
+          </a>
+          <a class="pcard pcard--cta" href="https://teamaquastore.myshopify.com/" target="_blank" rel="noopener" data-reveal>
+            <h3>Tutta la collezione 2026</h3>
+            <p>Taglie anche da bambino, dai 4 anni in su, per t-shirt e felpa.</p>
+            <span class="pcard__arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7. MAGAZINE: articoli più recenti -->
+    <section class="mag2 section" id="magazine" data-zone>
+      <header class="section-head section-head--row">
+        <div>
+          <p class="kicker" data-reveal>Magazine</p>
+          <h2 class="display" data-reveal>Le nostre news <span class="outline">sul competitivo</span></h2>
+        </div>
+        <a class="btn btn--ghost" data-reveal href="https://teamaqua.it/magazine-competitivo-pokemon">Tutti gli articoli</a>
+      </header>
+      <div class="mag2__grid">
+        <a class="post post--main" href="https://teamaqua.it/oltre-il-porto-di-aranciopoli-il-sogno-della-battle-cruise-" data-reveal>
+          <div class="post__img"><img src="assets/vgc/magazine/battle-cruise.webp" alt="" loading="lazy"></div>
+          <div class="post__body">
+            <span class="post__cat">Eventi</span>
+            <h3>Oltre il Porto di Aranciopoli: il sogno della Battle Cruise</h3>
+            <p class="post__meta">Annalisa Barra · 5 novembre 2026 · 7 min</p>
+          </div>
+        </a>
+        <a class="post" href="https://teamaqua.it/benvenuto-nel-team-aqua-sebastiano-trinki-trinchitelli" data-reveal>
+          <div class="post__img"><img src="assets/vgc/magazine/trinki.webp" alt="" loading="lazy"></div>
+          <div class="post__body">
+            <span class="post__cat">Intervista</span>
+            <h3>Benvenuto nel Team Aqua, Sebastiano “Trinki” Trinchitelli!</h3>
+            <p class="post__sub">Intervista al nuovo membro della squadra VGC</p>
+            <p class="post__meta">Carmine Cusati · 29 ottobre 2026 · 6 min</p>
+          </div>
+        </a>
+        <a class="post" href="https://teamaqua.it/apres-eux-le-deluge" data-reveal>
+          <div class="post__img"><img src="assets/vgc/magazine/nizza.webp" alt="" loading="lazy"></div>
+          <div class="post__body">
+            <span class="post__cat">Major report</span>
+            <h3>“Aprés eux le déluge”</h3>
+            <p class="post__sub">“Pioggia” di cambiamenti per la Reg M-C al Regionale di Nizza</p>
+            <p class="post__meta">Francesco Bulzis · 22 ottobre 2026 · 9 min</p>
+          </div>
+        </a>
+        <a class="post" href="https://teamaqua.it/giudizio-dalla-vetta-lancia" data-reveal>
+          <div class="post__img"><img src="assets/vgc/magazine/francoforte.webp" alt="" loading="lazy"></div>
+          <div class="post__body">
+            <span class="post__cat">Major report</span>
+            <h3>Giudizio dalla Vetta Lancia</h3>
+            <p class="post__sub">Il Pantheon della Reg M-C nella landa teutonica di Francoforte</p>
+            <p class="post__meta">Fausto - Mozart9398 - Terrana · 1 ottobre 2026 · 12 min</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+
+
+    <!-- SPONSOR: barra sottile a scorrimento, solo loghi -->
+    <div class="smarquee" role="region" aria-label="Sponsor e partner" data-velocity>
+      <div class="smarquee__track" data-marquee>
+        <ul class="smarquee__list">
+          <li><img src="assets/vgc/sponsor/nerdmatic.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/blueberry.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/aigrading.svg" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/studio-epr.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/centro-del-fumetto.png" alt="" loading="lazy"></li>
+          <li><img src="assets/vgc/sponsor/pardini.png" alt="" loading="lazy"></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ROSTER: GINI -->
+    <section class="gini section" id="roster" data-zone>
+      <header class="section-head">
+        <p class="kicker" data-reveal>Il roster</p>
+        <h2 class="display" data-reveal>Un cognome,<br><span class="outline">tre carriere</span></h2>
+        <p class="lead" data-reveal>Matteo, Nicola e Alberto Gini: dal secondo posto ai Mondiali 2011 ai titoli nazionali in Germania e Inghilterra. Scegli un risultato e guarda la squadra che l'ha conquistato.</p>
+      </header>
+      <div class="gini__grid" data-gini></div>
+      <div class="gini__more" data-reveal>
+        <a class="btn btn--ghost" href="https://teamaqua.it/il-roster">Tutto il roster</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer" data-zone>
+    <div class="footer__big" aria-hidden="true">Team Aqua</div>
+    <div class="footer__grid">
+      <div>
+        <a class="nav__brand" href="#top"><svg class="nav__logo"><use href="#trident"/></svg><span>Team Aqua <em>ASD</em></span></a>
+        <p class="footer__note">Affiliati a FIDE · Federazione Italiana Discipline Elettroniche</p>
+      </div>
+      <div>
+        <h4>Contatti</h4>
+        <a href="mailto:teamaquavgc@gmail.com">teamaquavgc@gmail.com</a>
+        <a href="mailto:teamaquaeventi@gmail.com">teamaquaeventi@gmail.com</a>
+        <a href="mailto:teamaqua.asd@legalmail.it">teamaqua.asd@legalmail.it</a>
+      </div>
+      <div>
+        <h4>Esplora</h4>
+        <a href="https://teamaqua.it/chi-siamo">Chi siamo</a>
+        <a href="https://teamaqua.it/la-nostra-storia">La nostra storia</a>
+        <a href="https://teamaqua.it/sponsor">Sponsor</a>
+        <a href="https://teamaqua.it/i-nostri-format">I nostri format</a>
+      </div>
+      <div>
+        <h4>Società</h4>
+        <p>Team Aqua ASD<br>C.F. 91600750151<br>P.IVA 12682620963</p>
+      </div>
+    </div>
+    <p class="footer__legal">© 2026 Team Aqua ASD · Tutti i diritti riservati</p>
+  </footer>
+
+  <script src="main.js" type="module"></script>
+</body>
+</html>

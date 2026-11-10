@@ -1,0 +1,290 @@
+/* ==========================================================
+   Team Aqua ASD — effetti delle sezioni "cosa fa il Team Aqua"
+   Tutto ruota attorno al concept della discesa sott'acqua.
+   ========================================================== */
+
+/* ---------- Atmosfera globale: raggi di luce e neve marina ---------- */
+.fx-rays {
+  position: fixed; inset: -5% -10% 35%; z-index: -2; pointer-events: none;
+  opacity: var(--rays, .7);
+  /* raggi già sfumati nel gradiente: niente filtro blur su uno strato a tutto schermo */
+  background:
+    repeating-linear-gradient(100deg,
+      transparent 0, rgba(95, 227, 255, .055) 90px, transparent 160px,
+      transparent 210px, rgba(160, 235, 255, .04) 235px, transparent 270px, transparent 330px);
+  -webkit-mask-image: linear-gradient(#000, transparent 85%);
+  mask-image: linear-gradient(#000, transparent 85%);
+  transform-origin: 50% 0;
+  will-change: transform;
+  animation: rays-sway 26s ease-in-out infinite alternate;
+}
+@keyframes rays-sway { from { transform: skewX(-8deg) translateX(-4%); } to { transform: skewX(6deg) translateX(4%); } }
+.fx-ambient { position: fixed; inset: 0; z-index: -2; width: 100%; height: 100%; pointer-events: none; }
+
+/* ---------- Titoli che emergono parola per parola ---------- */
+/* il margine in alto lascia spazio agli accenti (É) che altrimenti verrebbero tagliati */
+.split .w { display: inline-block; overflow: hidden; vertical-align: top; padding: .16em .02em .08em; margin: -.16em -.02em -.08em; }
+.split .w__i {
+  display: inline-block;
+  transform: translateY(110%) rotate(5deg); transform-origin: 0 100%;
+  transition: transform 1.1s cubic-bezier(.16, 1, .3, 1);
+  transition-delay: calc(var(--i) * 60ms);
+}
+.split.is-in .w__i { transform: none; }
+
+/* ---------- Immagini rivelate da un'onda che sale ---------- */
+.fx-wave { clip-path: inset(100% 0 0 0); transition: clip-path 1.5s cubic-bezier(.7, 0, .2, 1); }
+.fx-wave.is-wet { clip-path: inset(0 0 0 0); }
+.fx-wave::after {
+  content: ''; position: absolute; left: -3%; right: -3%; top: 100%; height: 54px; z-index: 5; pointer-events: none;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 54' preserveAspectRatio='none'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23F2FDFF' stop-opacity='.95'/%3E%3Cstop offset='.35' stop-color='%235FE3FF' stop-opacity='.55'/%3E%3Cstop offset='1' stop-color='%230D78F2' stop-opacity='0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M0 16 Q25 0 50 16 T100 16 T150 16 T200 16 V54 H0z' fill='url(%23g)'/%3E%3C/svg%3E") 0 0 / 50% 100% repeat-x;
+  transition: top 1.5s cubic-bezier(.7, 0, .2, 1), opacity .5s ease 1.25s;
+}
+.fx-wave.is-wet::after { top: -54px; opacity: 0; }
+.stream__screen, .blab__media, .talk__media, .post__img, .vcl2__banner, .edition__img { position: relative; }
+
+
+/* ---------- TARL: edizioni in griglia, con le foto rivelate dall'onda ---------- */
+.tarl__track { display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; }
+.edition { min-height: 0; }
+.edition__img { margin: 0 0 6px; aspect-ratio: 16 / 10; overflow: hidden; border-radius: 14px; background: rgba(13, 120, 242, .2); }
+.edition__img img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.edition:hover .edition__img img { transform: scale(1.05); }
+.edition__year { font-size: 96px; bottom: -14px; }
+@media (max-width: 1100px) {
+  .tarl__track { grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: min(340px, 80vw); overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+  .edition { scroll-snap-align: start; }
+}
+
+/* ---------- Streaming: la TV si accende, arrivano le reazioni ---------- */
+.stream__player {
+  position: relative;
+  transform: perspective(1400px) rotateY(var(--ry, 6deg)) rotateX(var(--rx, 2deg));
+  transition: transform .6s var(--ease);
+}
+.stream__player:hover { transform: perspective(1400px) rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); }
+.stream__screen::before {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: repeating-linear-gradient(transparent 0 2px, rgba(0, 0, 0, .16) 2px 3px);
+  opacity: .55;
+}
+.stream__screen.tv-off { transform: scale(0, .004); filter: brightness(4) saturate(0); }
+.stream__screen.tv-on { animation: tv-on 1.15s cubic-bezier(.2, .8, .2, 1) both; }
+@keyframes tv-on {
+  0% { transform: scale(0, .004); filter: brightness(4) saturate(0); }
+  35% { transform: scale(1, .006); filter: brightness(4) saturate(0); }
+  70% { transform: scale(1, 1.03); filter: brightness(1.5); }
+  100% { transform: none; filter: none; }
+}
+.stream__reactions { position: absolute; right: 18px; bottom: 34px; width: 90px; height: 75%; z-index: 4; pointer-events: none; }
+.reaction {
+  position: absolute; bottom: 0; left: var(--x, 30px);
+  font-size: var(--s, 26px); line-height: 1;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, .5));
+  animation: react-up var(--t, 2.8s) cubic-bezier(.2, .6, .3, 1) forwards;
+}
+@keyframes react-up {
+  0% { transform: translate(0, 0) scale(.3); opacity: 0; }
+  12% { transform: translate(var(--dx1), -30px) scale(1.1); opacity: 1; }
+  100% { transform: translate(var(--dx2), -320px) scale(.85); opacity: 0; }
+}
+
+/* ---------- Sponsor: due nastri che reagiscono alla velocità di scroll ---------- */
+.smarquee { display: grid; gap: 14px; --skew: 0deg; }
+.smarquee__list { will-change: transform; }
+.smarquee { padding: 56px 0; }
+.smarquee__track { animation-duration: 70s; }
+.smarquee__list li { height: 110px; padding: 0 clamp(48px, 6vw, 96px); }
+.smarquee__list img { height: 92px; max-width: 300px; opacity: .85; }
+.smarquee__list li:nth-child(1) img { height: 46px; }
+.smarquee__list li:nth-child(2) img { height: 78px; }
+.smarquee__list li:nth-child(3) img { height: 124px; max-width: 360px; }
+@media (max-width: 760px) {
+  .smarquee { padding: 36px 0; }
+  .smarquee__list li { height: 80px; }
+  .smarquee__list img { height: 64px; }
+  .smarquee__list li:nth-child(1) img { height: 32px; }
+  .smarquee__list li:nth-child(2) img { height: 54px; }
+  .smarquee__list li:nth-child(3) img { height: 86px; }
+}
+
+/* ---------- Dal vivo: tre parole giganti, entrano una volta e restano ferme ---------- */
+.kinetic { margin-bottom: clamp(56px, 7vw, 110px); }
+.kinetic__lines {
+  display: flex; flex-direction: column; margin-top: 10px;
+  font: 400 clamp(72px, 12vw, 200px)/.86 var(--font-display); text-transform: uppercase;
+}
+.kinetic__line { display: block; opacity: 0; transform: translateX(-4%); transition: opacity .9s var(--ease), transform 1.2s cubic-bezier(.16, 1, .3, 1); }
+.kinetic__line:nth-child(2) { transition-delay: .12s; padding-left: 8%; }
+.kinetic__line:nth-child(3) { transition-delay: .24s; padding-left: 16%; }
+.kinetic__lines.is-in .kinetic__line { opacity: 1; transform: none; }
+.kinetic__line--outline { color: transparent; -webkit-text-stroke: 2px var(--foam); }
+.kinetic__line--cyan { color: var(--cyan); text-shadow: 0 0 60px rgba(95, 227, 255, .35); }
+.kinetic__lead { margin-top: 28px; font-size: 20px; color: #fff; }
+
+/* ---------- Battle Lab: cambio foto con un'onda circolare ---------- */
+.blab__media img.blab__next {
+  position: absolute; inset: 0; z-index: 2;
+  clip-path: circle(0% at var(--cx, 50%) var(--cy, 100%));
+  transition: clip-path 1s cubic-bezier(.7, 0, .2, 1);
+}
+.blab__media img.blab__next.is-open { clip-path: circle(150% at var(--cx, 50%) var(--cy, 100%)); }
+.blab__ring {
+  position: absolute; left: var(--cx, 50%); top: var(--cy, 100%); z-index: 3;
+  width: 0; height: 0; border-radius: 50%;
+  border: 2px solid rgba(234, 250, 255, .9);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: ring-out 1s cubic-bezier(.7, 0, .2, 1) forwards;
+}
+@keyframes ring-out { to { width: 260%; height: 260%; opacity: 0; border-width: 1px; } }
+.blab__media { position: relative; }
+
+/* ---------- Battle Cruise: zoom cinematografico e rotta che si disegna ---------- */
+.cruise__bg { transform: scale(1.04); transition: transform 2s var(--ease); }
+.cruise:hover .cruise__bg { transform: scale(1); }
+.route { position: relative; max-width: 440px; margin: 4px 0 34px; }
+.route svg { display: block; width: 100%; height: auto; overflow: visible; }
+.route__base { fill: none; stroke: rgba(95, 227, 255, .28); stroke-width: 2; stroke-dasharray: 3 9; stroke-linecap: round; }
+.route__line { fill: none; stroke: var(--cyan); stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 0 6px rgba(95, 227, 255, .9)); stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 2.4s cubic-bezier(.6, 0, .2, 1); }
+.route.is-drawn .route__line { stroke-dashoffset: 0; }
+.route__ship { transition: opacity .3s; }
+.route__ship path:first-child { fill: #fff; }
+.route__ship path:last-child { fill: var(--cyan); }
+.route__port {
+  position: absolute; left: var(--px); top: var(--py);
+  transform: translate(-50%, 12px);
+  font: 600 11px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--faint); white-space: nowrap;
+  transition: color .4s;
+}
+.route__port::before {
+  content: ''; position: absolute; left: 50%; top: -18px; width: 12px; height: 12px; margin-left: -6px;
+  border-radius: 50%; background: var(--navy); border: 2px solid rgba(95, 227, 255, .5);
+  transition: background-color .4s, box-shadow .4s;
+}
+.route__port.is-reached { color: #fff; }
+.route__port.is-reached::before { background: var(--cyan); box-shadow: 0 0 0 5px rgba(95, 227, 255, .2), 0 0 16px var(--cyan); }
+
+/* ---------- VCL: raggi dorati, luccichio e coriandoli ---------- */
+.vcl2 { position: relative; }
+.vcl2__confetti { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; pointer-events: none; }
+.trophy--main { position: relative; isolation: isolate; }
+.trophy__rays {
+  position: absolute; left: 50%; top: 34%; z-index: -1;
+  width: 560px; height: 560px; margin: -280px 0 0 -280px;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 214, 102, .2) 0deg 5deg, transparent 5deg 17deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  animation: rays-spin 26s linear infinite;
+  pointer-events: none;
+}
+@keyframes rays-spin { to { transform: rotate(360deg); } }
+.vcl2__title span {
+  background: linear-gradient(100deg, #E0A526 0%, #FFD666 32%, #FFF9E1 46%, #FFD666 60%, #E0A526 100%);
+  background-size: 260% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  animation: gold-shine 4.5s ease-in-out infinite;
+}
+@keyframes gold-shine { 0% { background-position: 100% 0; } 55%, 100% { background-position: 0 0; } }
+.trophy { transition: transform .6s var(--ease), border-color .4s; }
+.trophy:hover { transform: translateY(-8px); border-color: rgba(255, 214, 102, .5); }
+
+/* ---------- Shop: onde che si muovono, scritta gigante, maglia in 3D ---------- */
+.shop { isolation: isolate; }
+.shop::before { animation: shop-wave 9s linear infinite; }
+.shop::after { animation: shop-wave 12s linear infinite reverse; }
+@keyframes shop-wave { to { -webkit-mask-position: 720px 0; mask-position: 720px 0; } }
+.shop__marquee { position: absolute; left: 0; right: 0; top: clamp(20px, 3vw, 48px); z-index: 0; overflow: hidden; pointer-events: none; }
+.shop__marquee > div { display: flex; width: max-content; animation: marquee 50s linear infinite; }
+.shop__marquee span {
+  padding-right: .25em;
+  font: 400 clamp(120px, 17vw, 280px)/1 var(--font-display); text-transform: uppercase; white-space: nowrap;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(10, 21, 80, .08);
+}
+.shop__inner { position: relative; z-index: 1; }
+.jersey__stage { perspective: 1000px; overflow: hidden; }
+.jersey__stage img { transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)); transition: transform .5s var(--ease); }
+.jersey__stage.is-tilting img { transition: transform .1s linear; }
+.jersey:hover .jersey__stage img { transform: rotateY(var(--ry, 0deg)) rotateX(var(--rx, 0deg)) scale(1.03); }
+.jersey__shine {
+  position: absolute; inset: 0; z-index: 2; pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 40%), rgba(255, 255, 255, .6), transparent 40%);
+  mix-blend-mode: soft-light; opacity: 0; transition: opacity .35s;
+}
+.jersey__stage:hover .jersey__shine { opacity: 1; }
+.jersey__plate { z-index: 3; transform-style: preserve-3d; }
+.jersey__plate.is-flip { animation: plate-flip .5s cubic-bezier(.6, 0, .4, 1); }
+@keyframes plate-flip {
+  0% { transform: rotate(-3deg) rotateX(0); }
+  50% { transform: rotate(-3deg) rotateX(90deg) scale(.95); }
+  100% { transform: rotate(-3deg) rotateX(0); }
+}
+.js .pcard[data-reveal] { transform: translateY(70px) rotateX(16deg); transform-origin: 50% 100%; }
+.js .pcard[data-reveal].is-in { transform: none; }
+.pcard.is-in:hover { transform: translateY(-8px); }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 999px) {
+  .tarl__track { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 12px; }
+  .edition { scroll-snap-align: start; }
+}
+@media (max-width: 760px) {
+  .stream__player { transform: none !important; }
+  .stream__reactions { right: 8px; width: 60px; }
+  .trophy__rays { width: 380px; height: 380px; margin: -190px 0 0 -190px; }
+}
+
+/* ---------- Movimento ridotto ---------- */
+@media (prefers-reduced-motion: reduce) {
+  .fx-wave { clip-path: none; }
+  .fx-wave::after { display: none; }
+  .split .w__i { transform: none; }
+  .stream__screen.tv-off { transform: none; filter: none; }
+  .kinetic__line { transform: none; opacity: 1; }
+  .fx-rays { animation: none; }
+}
+
+/* ---------- Leggerezza ---------- */
+/* animazioni ferme nelle sezioni fuori dallo schermo */
+.is-offscreen, .is-offscreen *, .is-offscreen *::before, .is-offscreen *::after { animation-play-state: paused !important; }
+/* il luccichio dorato ridisegna il testo: due passaggi e poi si ferma */
+.vcl2__title span { animation-iteration-count: 2; }
+@media (max-width: 760px) {
+  .kinetic__lines { font-size: 17vw; }
+  .kinetic__line:nth-child(2), .kinetic__line:nth-child(3) { padding-left: 0; }
+}
+
+
+/* ==========================================================
+   Revisione: barra sponsor sottile ripetuta, scritte cinetiche, spaziature
+   ========================================================== */
+.smarquee { padding: 16px 0; gap: 0; }
+.smarquee__track { animation-duration: 60s; }
+.smarquee__list li { height: 54px; padding: 0 clamp(36px, 4.5vw, 72px); }
+.smarquee__list img { height: 40px; max-width: 200px; opacity: .8; }
+.smarquee__list li:nth-child(1) img { height: 20px; }
+.smarquee__list li:nth-child(2) img { height: 34px; }
+.smarquee__list li:nth-child(3) img { height: 56px; max-width: 220px; }
+.smarquee--bleed { width: 100vw; margin: clamp(56px, 6vw, 88px) 0 0 calc(50% - 50vw); }
+@media (max-width: 760px) {
+  .smarquee { padding: 12px 0; }
+  .smarquee__list li { height: 44px; }
+  .smarquee__list img { height: 32px; }
+  .smarquee__list li:nth-child(1) img { height: 16px; }
+  .smarquee__list li:nth-child(2) img { height: 28px; }
+  .smarquee__list li:nth-child(3) img { height: 46px; }
+}
+
+/* Dal vivo: righe ripetute a tutta larghezza che scorrono con lo scroll */
+.kinetic { margin-bottom: clamp(40px, 5vw, 72px); }
+.kinetic__lines {
+  width: 100vw; margin: 10px 0 0 calc(50% - 50vw);
+  overflow: hidden; white-space: nowrap;
+  font-size: clamp(76px, 13vw, 230px);
+}
+.kinetic__line, .kinetic__lines.is-in .kinetic__line {
+  opacity: 1; padding-left: 0 !important; transition: none;
+  transform: translate3d(-20vw, 0, 0); will-change: transform;
+}
+@media (max-width: 760px) { .kinetic__lines { font-size: 21vw; } }
